@@ -1,5 +1,5 @@
 # flask-mysql-manifests-example
-Kubernetes manifests for deploying flask-mysql-example repository. 
+Kubernetes manifests for deploying [flask-mysql-example](https://github.com/SyracuseUniversity/flask-mysql-example) repository. 
 
 > [!NOTE]
 > If you would like to use these manifests for ArgoCD, be sure to fork this repository into your own repository.
