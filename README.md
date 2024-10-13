@@ -67,6 +67,32 @@ If you plan on deploying a different application than the one in this example, y
 ...
 ```
 
+If you have any environment variables you need to set for your application (i.e. configurations, passwords, etc...), they can be set in the app-deployment manifest. 
+> [!NOTE]
+> If you need to store a password, use a secret, and reference the secret in your env variable. You can learn more about kubernetes secrets [here](https://kubernetes.io/docs/concepts/configuration/secret/).
+
+> [!IMPORTANT]
+> **DO NOT** store secrets in github or ArgoCD. Secret manifests should only be deployed via the `kubectl` command.
+
+```yaml
+...
+      containers:
+      - name: flask-app
+        image: harbor.ischool.syr.edu/examples/flask-mysql-example:latest
+        ...
+        env:
+        - name: APP_NAME
+          value: "Guest Book"
+        - name: APP_SECRET  
+          valueFrom:
+            secretKeyRef:
+              name: flask-app-secret
+              key: secret
+        - name: DB_HOST
+          value: mariadb
+...        
+```
+
 #### [mariadb-nodeport.yaml](./mariadb-nodeport.yaml)
 If the nodeport doesn't deploy correctly, change the `nodePort` to a different value from 31000-32000:
 ```yaml
@@ -123,7 +149,7 @@ once logged in, use the following line to create the *logbook* database:
 CREATE DATABASE logbook;
 ```
 
-after that you can exit by typing `exit` and pressing enter.
+After that you can exit by typing `exit` and pressing enter.
 
 ## Setting up a domain name to point to your application
-to setup a domain name to point to your application, reach out to the iSchool Technology Services team.
+To setup a domain name to point to your application, reach out to the iSchool Technology Services team.
